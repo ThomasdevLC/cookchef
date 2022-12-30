@@ -4,30 +4,39 @@ import cookchef from "../../assets/images/cookchef.png";
 import { useState } from "react";
 import HeaderMenu from "./components/HeaderMenu/HeaderMenu";
 
-const Header = () => {
+const Header = ({ setPage }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <header className={` ${styles.header} d-flex flex-row align-items-center`}>
+    <header className={`${styles.header} d-flex flex-row align-items-center`}>
       <div className="flex-fill">
-        <img src={cookchef} alt="logo cookchef" />
+        <img
+          onClick={() => setPage("homepage")}
+          src="https://github.com/dymafr/react-c5l4/blob/master/src/assets/images/cookchef.png?raw=true"
+          alt="logo cookchef"
+        />
       </div>
-
       <ul className={styles.headerList}>
-        <button className="mr-5 btn btn-reverse-primary">
-          <i className="fa-solid fa-heart"></i> Wishlist
+        <button
+          onClick={() => setPage("admin")}
+          className="btn btn-primary mr-15"
+        >
+          Ajouter une recette
+        </button>
+        <button className="mr-15 btn btn-reverse-primary">
+          <i className="fa-solid fa-heart mr-5"></i>
+          <span>Wishlist</span>
         </button>
         <button className="btn btn-primary">Connexion</button>
       </ul>
       <i
         onClick={() => setShowMenu(true)}
-        className={`fa-solid fa-bars mr-5 ${styles.headerXs}`}
+        className={`fa-solid fa-bars ${styles.headerXs}`}
       ></i>
-
       {showMenu && (
         <>
           <div onClick={() => setShowMenu(false)} className="calc"></div>
-          <HeaderMenu />
+          <HeaderMenu setPage={setPage} />
         </>
       )}
     </header>
