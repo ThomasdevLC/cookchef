@@ -6,10 +6,11 @@ import styles from "./Recipe.module.scss";
 const Recipe = ({
   recipe: { title, image, liked, _id },
   toggleLikedRecipe,
+  deleteRecipe,
 }) => {
   const BASE_URL_API = useContext(ApiContext);
 
-  const handleClick = async () => {
+  const handleLike = async () => {
     try {
       const response = await fetch(`${BASE_URL_API}/${_id}`, {
         method: "PATCH",
@@ -17,16 +18,30 @@ const Recipe = ({
         body: JSON.stringify({ liked: !liked }),
       });
       if (response.ok) {
-        const updateRecipe = await response.json();
-        toggleLikedRecipe(updateRecipe);
+        const updatedRecipe = await response.json();
+        toggleLikedRecipe(updatedRecipe);
       }
     } catch (e) {
       console.error(e);
     }
   };
 
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await fetch(`${BASE_URL_API}/${_id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        deleteRecipe(_id);
+      }
+    } catch (e) {
+      console.log("erreur");
+    }
+  };
   return (
-    <div onClick={handleClick} className={styles.recipe}>
+    <div onClick={handleLike} className={styles.recipe}>
+      <i onClick={handleDelete} className="fa-solid fa-xmark"></i>
       <div className={styles.imageContainer}>
         <img src={image} alt="recette" />
       </div>

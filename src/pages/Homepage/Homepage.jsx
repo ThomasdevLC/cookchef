@@ -5,73 +5,35 @@ import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
 import { ApiContext } from "../../context/ApiContext";
 import { useContext } from "react";
+import Search from "./components/Search/Search";
+import { useFetchData } from "../../hooks/UseFetchData";
 
 const Homepage = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [isLoading, setIsloading] = useState(true);
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
   const BASE_URL_API = useContext(ApiContext);
+  const [[recipes, setRecipes], isLoading] = useFetchData(BASE_URL_API, page);
 
-  useEffect(() => {
-    let cancel = false;
-    const fetchRecipes = async () => {
-      try {
-        setIsloading(true);
-        const response = await fetch(
-          `${BASE_URL_API}?skip= ${(page - 1) * 18}&limit=18`
-        );
-        if (response.ok && !cancel) {
-          const newRecipes = await response.json();
-          setRecipes((x) =>
-            Array.isArray(newRecipes)
-              ? [...x, ...newRecipes]
-              : [...x, ...newRecipes]
-          );
-        }
-      } catch (e) {
-        console.log("erreur");
-      } finally {
-        if (!cancel) {
-          setIsloading(false);
-        }
-      }
-    };
-    fetchRecipes();
-    return () => (cancel = true);
-  }, [BASE_URL_API, page]);
-
-  const updateRecipe = async (updateRecipe) => {
+  const updateRecipe = (updatedRecipe) => {
     setRecipes(
-      recipes.map((r) => (r._id === updateRecipe._id ? updateRecipe : r))
+      recipes.map((r) => (r._id === updatedRecipe._id ? updatedRecipe : r))
     );
   };
 
-  const handleInput = (e) => {
-    const filter = e.target.value;
-    setFilter(filter.trim().toLowerCase());
+  const deleteRecipe = (_id) => {
+    setRecipes(recipes.filter((r) => r._id !== _id));
   };
 
   return (
     <div className=" flex-fill container d-flex flex-column p-20 ">
       <h1 className="my-30">
         Découvrez nos nouvelles recettes{" "}
-        <small className={styles.small}>{recipes.length}</small>{" "}
+        <small className={styles.small}>({recipes.length})</small>{" "}
       </h1>
       <div
         className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}
       >
-        <div
-          className={`d-flex flex-row justify-content-center align-item-center my-30 ${styles.searchBar}`}
-        >
-          <i className="fa-solid fa-magnifying-glass mr-15"></i>
-          <input
-            onInput={handleInput}
-            className="flex-fill"
-            type="text"
-            placeholder="Rechercher"
-          />
-        </div>
+        <Search setFilter={setFilter} />
         {isLoading && !recipes.length ? (
           <Loading />
         ) : (
@@ -82,6 +44,7 @@ const Homepage = () => {
                 <Recipe
                   key={r._id}
                   recipe={r}
+                  deleteRecipe={deleteRecipe}
                   toggleLikedRecipe={updateRecipe}
                 />
               ))}
