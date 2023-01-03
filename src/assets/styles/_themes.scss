@@ -61,6 +61,11 @@
     transition: 0.2s;
   }
 }
+.btn-danger {
+  background-color: var(--red-1);
+  color: white;
+  border: 2px solid var(--red-1);
+}
 
 .card {
   background-color: white;
