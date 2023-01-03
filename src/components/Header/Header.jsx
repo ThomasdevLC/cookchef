@@ -20,7 +20,7 @@ const Header = () => {
       </div>
       <ul className={styles.headerList}>
         <NavLink to="/admin">
-          <button className="btn btn-primary mr-15">Ajouter une recette</button>
+          <button className="btn btn-primary mr-15">Admin</button>
         </NavLink>
 
         <button className="mr-15 btn btn-reverse-primary">
