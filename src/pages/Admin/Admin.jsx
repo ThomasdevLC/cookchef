@@ -1,5 +1,5 @@
 import React from "react";
-import RecipeForm from "./components/RecipeForm/RecipeForm";
+import RecipeForm from "./pages/AdminRecipes/pages/AdminRecipesForm/AdminRecipesForm";
 
 const Admin = () => {
   return (

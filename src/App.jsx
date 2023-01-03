@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import Homepage from "./pages/Homepage/Homepage";
 import Footer from "./components/Footer/Footer";
 import styles from "./App.module.scss";
-import Admin from "./pages/Homepage/Admin/Admin";
+import Admin from "./pages/Admin/Admin";
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
 import { seedRecipes } from "./data/Seed";
