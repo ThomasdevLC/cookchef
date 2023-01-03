@@ -40,6 +40,7 @@ textarea {
   font-family: var(--font-family);
 }
 
-a:link {
+a {
+  color: var(--text-color);
   text-decoration: none;
 }
