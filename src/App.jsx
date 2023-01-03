@@ -6,7 +6,7 @@ import styles from "./App.module.scss";
 import Admin from "./pages/Homepage/Admin/Admin";
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
-// import { seedRecipes } from "./data/Seed";
+import { seedRecipes } from "./data/Seed";
 
 // seedRecipes();
 
