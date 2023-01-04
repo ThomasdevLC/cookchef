@@ -3,7 +3,7 @@ import styles from "./AdminRecipesForm.module.scss";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
+import { createRecipe } from "../../../../../../apis";
 const AdminRecipesForm = () => {
   const defaultValues = {
     title: "",
@@ -38,18 +38,8 @@ const AdminRecipesForm = () => {
   const submit = async (values) => {
     try {
       clearErrors();
-      const response = await fetch("https://restapi.fr/api/recipes", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-      if (response.ok) {
-        reset(defaultValues);
-      } else {
-        setError("generic", { type: "generic", message: "Il y a une erreur" });
-      }
+      await createRecipe(values);
+      reset(defaultValues);
     } catch (e) {
       setError("generic", { type: "generic", message: "Il y a une erreur" });
     }
